@@ -1,36 +1,198 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+IslamicHub
 
-## Getting Started
+IslamicHub is a modern Islamic digital platform built with Next.js. It allows users to read the Holy Quran, listen to recitation, explore Hadith collections, check daily prayer times, view the Islamic calendar, and save important Quran Ayahs and Hadiths.
 
-First, run the development server:
+Live Website
 
-```bash
+Visit [IslamicHub](https://islamic-hub-beige.vercel.app/)
+
+Project Overview
+
+IslamicHub is designed as an all-in-one Islamic web application where users can access important Islamic resources in a clean, responsive, and user-friendly interface.
+
+The platform includes Quran reading, audio recitation, translations, bookmarks, Hadith search, prayer timing tools, and Hijri calendar features.
+
+Features
+Quran Reader
+Browse all 114 Surahs
+Read Arabic Quran text
+View English translation
+View Urdu translation
+Switch between English, Urdu, Both, and Arabic-only modes
+Listen to Ayah-by-Ayah audio recitation
+Audio fallback support for better reliability
+Copy any Ayah
+Bookmark/save favorite Ayahs
+Separate Bookmarks page for saved Quran Ayahs
+Proper Arabic and Urdu font styling
+Bismillah separation for better reading experience
+Hadith Library
+Browse multiple Hadith collections
+Search Hadith by keyword or number
+View Arabic text
+View English translation
+View Urdu translation where available
+Switch between English, Urdu, Both, and Arabic-only modes
+Copy Hadith text
+Save/bookmark Hadith
+View saved Hadiths
+Open individual Hadith detail pages with shareable URLs
+Prayer Times
+Search prayer times by city and country
+View Fajr, Sunrise, Dhuhr, Asr, Maghrib, and Isha timings
+Select calculation method
+View current prayer status
+View next prayer
+View remaining time for the next prayer
+View timezone and Hijri date
+Islamic Calendar
+View today’s Hijri date
+View monthly Islamic calendar
+Display Gregorian and Hijri dates together
+Navigate between previous and next months
+Highlight current day
+Show Islamic holidays where available
+General Features
+Fully responsive design
+Modern dark Islamic theme
+Arabic, English, and Urdu support
+LocalStorage-based bookmarks
+Clean and reusable component structure
+Built with Next.js App Router
+Deployed on Vercel
+Tech Stack
+Next.js
+React
+TypeScript
+Tailwind CSS
+Next Font
+LocalStorage
+Vercel Deployment
+APIs Used
+Quran
+
+Quran data, translations, and audio recitation are fetched from Quran API sources.
+
+Hadith
+
+Hadith collections are fetched from public Hadith API data sources.
+
+Prayer Times & Islamic Calendar
+
+Prayer timings and Hijri calendar data are fetched from Islamic calendar and prayer time APIs.
+
+Pages
+/
+Home page
+
+/quran
+Quran Surah list
+
+/quran/[surah]
+Surah detail page with Ayahs, translations, audio, copy, and bookmark features
+
+/bookmarks
+Saved Quran Ayahs
+
+/hadith
+Hadith library with search, filters, save, and copy features
+
+/hadith/[book]/[number]
+Hadith detail page
+
+/prayer-times
+Daily prayer timings with current and next prayer status
+
+/islamic-calendar
+Hijri calendar and monthly Islamic calendar
+Folder Structure
+src/
+├── app/
+│   ├── page.tsx
+│   ├── layout.tsx
+│   ├── globals.css
+│   ├── quran/
+│   │   ├── page.tsx
+│   │   └── [surah]/
+│   │       └── page.tsx
+│   ├── bookmarks/
+│   │   └── page.tsx
+│   ├── hadith/
+│   │   ├── page.tsx
+│   │   └── [book]/
+│   │       └── [number]/
+│   │           └── page.tsx
+│   ├── prayer-times/
+│   │   └── page.tsx
+│   └── islamic-calendar/
+│       └── page.tsx
+│
+├── components/
+│   ├── Navbar.tsx
+│   ├── Footer.tsx
+│   ├── SurahCard.tsx
+│   ├── QuranSearch.tsx
+│   ├── SurahReader.tsx
+│   ├── AyahAudioPlayer.tsx
+│   ├── BookmarkList.tsx
+│   ├── HadithClient.tsx
+│   ├── HadithDetailActions.tsx
+│   ├── PrayerTimesClient.tsx
+│   └── IslamicCalendarClient.tsx
+│
+└── lib/
+    ├── quran.ts
+    ├── hadith.ts
+    ├── prayer.ts
+    └── islamicCalendar.ts
+Getting Started
+
+Clone the project:
+
+git clone your-repository-url
+cd islamic-hub
+
+Install dependencies:
+
+npm install
+
+Run the development server:
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open the project in your browser:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+http://localhost:3000
+Build for Production
+npm run build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Start production server:
 
-## Learn More
+npm start
+Deployment
 
-To learn more about Next.js, take a look at the following resources:
+The project is deployed on Vercel.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Live URL:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+https://islamic-hub-beige.vercel.app/
+Future Improvements
+User authentication
+Cloud-based bookmarks
+Daily Ayah section
+Daily Hadith section
+Duas section
+Qibla direction
+Tasbeeh counter
+Admin dashboard
+More Quran reciters
+More translation options
+Mobile app version
+Push notifications for prayer times
+Disclaimer
 
-## Deploy on Vercel
+This project is created for Islamic learning and accessibility purposes. Prayer timings may vary depending on local mosque, region, and calculation method. Users should verify religious timings and references from trusted local Islamic authorities where needed.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Author
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Developed by Omni Fusions.
