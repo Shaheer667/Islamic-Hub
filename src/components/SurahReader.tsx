@@ -24,7 +24,10 @@ type Bookmark = {
   urduTranslation: string;
 };
 
-const BISMILLAH = "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ";
+const BISMILLAH_DISPLAY = "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ";
+
+const ARABIC_DIACRITICS =
+  /[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED]/g;
 
 const options: { label: string; value: TranslationMode }[] = [
   { label: "English", value: "english" },
@@ -33,23 +36,64 @@ const options: { label: string; value: TranslationMode }[] = [
   { label: "Arabic Only", value: "arabic" },
 ];
 
-function splitBismillah(text: string, surahNumber: number, ayahNumber: number) {
-  const shouldSplit =
-    ayahNumber === 1 &&
-    surahNumber !== 1 &&
-    surahNumber !== 9 &&
-    text.startsWith(BISMILLAH);
+function normalizeArabic(text: string) {
+  return text
+    .normalize("NFC")
+    .replace(ARABIC_DIACRITICS, "")
+    .replace(/\u0640/g, "")
+    .replace(/ٱ/g, "ا")
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
-  if (!shouldSplit) {
+function normalizeArabicChar(char: string) {
+  return char
+    .normalize("NFC")
+    .replace(ARABIC_DIACRITICS, "")
+    .replace(/\u0640/g, "")
+    .replace(/ٱ/g, "ا");
+}
+
+function splitBismillah(text: string, surahNumber: number, ayahNumber: number) {
+  const shouldCheck =
+    ayahNumber === 1 && surahNumber !== 1 && surahNumber !== 9;
+
+  if (!shouldCheck) {
     return {
       bismillah: "",
       remainingText: text,
     };
   }
 
+  const normalizedText = normalizeArabic(text);
+  const normalizedBismillah = normalizeArabic(BISMILLAH_DISPLAY);
+
+  if (!normalizedText.startsWith(normalizedBismillah)) {
+    return {
+      bismillah: "",
+      remainingText: text,
+    };
+  }
+
+  let normalizedBuild = "";
+  let splitIndex = 0;
+
+  for (let i = 0; i < text.length; i++) {
+    const normalizedChar = normalizeArabicChar(text[i]);
+
+    normalizedBuild += normalizedChar;
+    normalizedBuild = normalizedBuild.replace(/\s+/g, " ");
+
+    splitIndex = i + 1;
+
+    if (normalizeArabic(normalizedBuild) === normalizedBismillah) {
+      break;
+    }
+  }
+
   return {
-    bismillah: BISMILLAH,
-    remainingText: text.replace(BISMILLAH, "").trim(),
+    bismillah: BISMILLAH_DISPLAY,
+    remainingText: text.slice(splitIndex).trim(),
   };
 }
 
@@ -67,7 +111,11 @@ export default function SurahReader({
     const savedBookmarks = localStorage.getItem("quran-bookmarks");
 
     if (savedBookmarks) {
-      setBookmarks(JSON.parse(savedBookmarks));
+      try {
+        setBookmarks(JSON.parse(savedBookmarks));
+      } catch {
+        setBookmarks([]);
+      }
     }
   }, []);
 
@@ -184,13 +232,13 @@ export default function SurahReader({
 
               <div dir="rtl" className="text-right">
                 {bismillah && (
-                  <p className="font-arabic arabic-text mb-6 text-center text-4xl text-amber-300 md:text-5xl">
+                  <p className="font-arabic arabic-text mb-8 block text-center text-4xl text-amber-300 md:text-5xl">
                     {bismillah}
                   </p>
                 )}
 
                 {remainingText && (
-                  <p className="font-arabic arabic-text text-4xl text-white md:text-5xl">
+                  <p className="font-arabic arabic-text block text-4xl text-white md:text-5xl">
                     {remainingText}
                   </p>
                 )}
