@@ -15,7 +15,7 @@ export type Ayah = {
   arabicText: string;
   englishTranslation: string;
   urduTranslation: string;
-  audio: string;
+  audioSources: string[];
 };
 
 export type SurahDetails = {
@@ -102,16 +102,30 @@ export async function getSurahDetails(
     englishNameTranslation: arabicSurah.englishNameTranslation,
     revelationType: arabicSurah.revelationType,
     numberOfAyahs: arabicSurah.numberOfAyahs,
-    ayahs: arabicSurah.ayahs.map((ayah: any, index: number) => ({
-      number: ayah.number,
-      numberInSurah: ayah.numberInSurah,
-      juz: ayah.juz,
-      page: ayah.page,
-      arabicText: ayah.text,
-      englishTranslation: englishSurah.ayahs[index]?.text || "",
-      urduTranslation:
-        urduSurah?.ayahs[index]?.text || "Urdu translation temporarily unavailable.",
-      audio: audioSurah?.ayahs[index]?.audio || "",
-    })),
+    ayahs: arabicSurah.ayahs.map((ayah: any, index: number) => {
+  const audioAyah = audioSurah?.ayahs[index];
+
+  const audioSources = [
+    audioAyah?.audio,
+    ...(Array.isArray(audioAyah?.audioSecondary)
+      ? audioAyah.audioSecondary
+      : []),
+    `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${ayah.number}.mp3`,
+    `https://cdn.islamic.network/quran/audio/64/ar.alafasy/${ayah.number}.mp3`,
+  ].filter(Boolean);
+
+  return {
+    number: ayah.number,
+    numberInSurah: ayah.numberInSurah,
+    juz: ayah.juz,
+    page: ayah.page,
+    arabicText: ayah.text,
+    englishTranslation: englishSurah.ayahs[index]?.text || "",
+    urduTranslation:
+      urduSurah?.ayahs[index]?.text ||
+      "Urdu translation temporarily unavailable.",
+    audioSources: [...new Set(audioSources)],
+  };
+}),
   };
 }
