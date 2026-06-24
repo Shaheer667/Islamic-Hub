@@ -1,26 +1,43 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+* {
+  box-sizing: border-box;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background: #071812;
+  color: white;
+}
+
+.font-english {
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+.font-arabic {
+  font-family: var(--font-amiri-quran), var(--font-noto-naskh-arabic), serif;
+}
+
+.font-arabic-ui {
+  font-family: var(--font-noto-naskh-arabic), serif;
+}
+
+.font-urdu {
+  font-family: var(--font-noto-nastaliq-urdu), var(--font-noto-naskh-arabic),
+    serif;
+}
+
+.arabic-text {
+  line-height: 2.8;
+  word-spacing: 0.16em;
+  letter-spacing: 0;
+}
+
+.urdu-text {
+  line-height: 2.7;
+  word-spacing: 0.08em;
 }
